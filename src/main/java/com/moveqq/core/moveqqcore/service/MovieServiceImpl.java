@@ -1,6 +1,7 @@
 package com.moveqq.core.moveqqcore.service;
 
 import com.moveqq.core.moveqqcore.fault.MovieDbException;
+import com.moveqq.core.moveqqcore.model.pojo.external.Genre;
 import com.moveqq.core.moveqqcore.model.pojo.external.Result;
 import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
 import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
@@ -22,11 +23,11 @@ public class MovieServiceImpl implements MovieService {
         try {
             List<Result> searchResult = movieDbService.findMoviesByQuery(name,year);
             for (Result result : searchResult){
-                Movie movie = new Movie();
-                movie.setId(Long.valueOf(result.getId()));
-                movie.setTitle(result.getTitle());
-                movie.setOverView(result.getOverview());
-                movie.setReleaseDate(result.getReleaseDate());
+                Movie movie = new Movie.MovieBuilder(Long.valueOf(result.getId()), result.getTitle())
+                        .withOverview(result.getOverview())
+                        .withReleaseDate(result.getReleaseDate())
+                        .withOriginalLanguage(result.getOriginalLanguage())
+                        .build();
                 movies.add(movie);
             }
         } catch (MovieDbException e) {
@@ -38,14 +39,28 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getMovieById(Long movieId) {
+        Movie movie = null;
         try {
-            Movie movie = new Movie();
             SearchMovieIdResult result = movieDbService.findMovieById(movieId);
-            movie.setId(Long.valueOf(result.getId()));
-            movie.setTitle(result.getTitle());
-            movie.set
+            movie = new Movie.MovieBuilder(Long.valueOf(result.getId()), result.getTitle())
+                    .withOverview(result.getOverview())
+                    .withReleaseDate(result.getReleaseDate())
+                    .withPopularity(result.getPopularity())
+                    .withGenres(getMovieGenres(result.getGenres()))
+                    .withBudget(result.getBudget())
+                    .withPosterPath(result.getPosterPath())
+                    .build();
+
         } catch (MovieDbException e) {
             //TODO obsluga wyjatku
         }
+        return movie;
+    }
+
+    private List<String> getMovieGenres(List<Genre> genres) {
+        List<String> genresString = new ArrayList<>();
+        for (Genre genre : genres)
+            genresString.add(genre.getName());
+        return genresString;
     }
 }

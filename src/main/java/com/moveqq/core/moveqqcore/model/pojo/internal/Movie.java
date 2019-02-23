@@ -1,7 +1,12 @@
 package com.moveqq.core.moveqqcore.model.pojo.internal;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.moveqq.core.moveqqcore.fault.MovieDbErrors;
+import com.moveqq.core.moveqqcore.fault.MovieDbException;
+
 import java.util.List;
 
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class Movie {
 
     private Long id;
@@ -11,87 +16,126 @@ public class Movie {
     private List<String> genres;
     private String originalTitle;
     private String originalLanguage;
-    private String budget;
-    private String popularity;
+    private Integer budget;
+    private Double popularity;
     private String posterPath;
+
+    private Movie(MovieBuilder builder) {
+        this.id = builder.id;
+        this.title = builder.title;
+        this.overView = builder.overView;
+        this.releaseDate = builder.releaseDate;
+        this.genres = builder.genres;
+        this.originalTitle = builder.originalTitle;
+        this.originalLanguage = builder.originalLanguage;
+        this.budget = builder.budget;
+        this.popularity = builder.popularity;
+        this.posterPath = builder.posterPath;
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getOverView() {
         return overView;
-    }
-
-    public void setOverView(String overView) {
-        this.overView = overView;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
     public List<String> getGenres() {
         return genres;
-    }
-
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
     }
 
     public String getOriginalTitle() {
         return originalTitle;
     }
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
-
     public String getOriginalLanguage() {
         return originalLanguage;
     }
 
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
-    public String getBudget() {
+    public Integer getBudget() {
         return budget;
     }
 
-    public void setBudget(String budget) {
-        this.budget = budget;
-    }
-
-    public String getPopularity() {
+    public Double getPopularity() {
         return popularity;
-    }
-
-    public void setPopularity(String popularity) {
-        this.popularity = popularity;
     }
 
     public String getPosterPath() {
         return posterPath;
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public static class MovieBuilder {
+
+        private Long id;
+        private String title;
+        private String overView;
+        private String releaseDate;
+        private List<String> genres;
+        private String originalTitle;
+        private String originalLanguage;
+        private Integer budget;
+        private Double popularity;
+        private String posterPath;
+
+        //TODO zmiana typu wyjatku
+        public MovieBuilder(Long id, String title) throws MovieDbException {
+            if (id == null)
+                throw new MovieDbException(MovieDbErrors.MOVIE_DB_BAD_PARAMETERS);
+            this.id = id;
+            this.title = title;
+        }
+
+        public MovieBuilder withOverview(String overView) {
+            this.overView = overView;
+            return this;
+        }
+
+        public MovieBuilder withReleaseDate(String releaseDate) {
+            this.releaseDate = releaseDate;
+            return this;
+        }
+
+        public MovieBuilder withGenres(List<String> genres) {
+            this.genres = genres;
+            return this;
+        }
+
+        public MovieBuilder withOriginalTitle(String originalTitle) {
+            this.originalTitle = originalTitle;
+            return this;
+        }
+
+        public MovieBuilder withOriginalLanguage(String originalLanguage) {
+            this.originalLanguage = originalLanguage;
+            return this;
+        }
+
+        public MovieBuilder withBudget(Integer budget) {
+            this.budget = budget;
+            return this;
+        }
+
+        public MovieBuilder withPopularity(Double popularity) {
+            this.popularity = popularity;
+            return this;
+        }
+
+        public MovieBuilder withPosterPath(String posterPath) {
+            this.posterPath = posterPath;
+            return this;
+        }
+
+        public Movie build() {
+            return new Movie(this);
+        }
     }
 }
