@@ -7,6 +7,7 @@ import com.moveqq.core.moveqqcore.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(value = "http://localhost:4200",maxAge = 3500)
 @RestController
 @RequestMapping(path = "/movies")
 public class MovieController {
@@ -29,6 +30,7 @@ public class MovieController {
         response.setMovieList(movieService.getMoviesListByTitle(query, year));
         return response;
     }
+
 
     @RequestMapping(method = RequestMethod.GET, path = "/movie/{id}")
     @ResponseBody
