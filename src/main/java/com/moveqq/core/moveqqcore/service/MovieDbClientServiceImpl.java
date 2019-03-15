@@ -7,20 +7,19 @@ import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
 import com.moveqq.core.moveqqcore.model.pojo.external.SearchQueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@Component
-public class MovieDbServiceClientImpl implements MovieDbServiceClient {
-
-    //TODO wstrzyknac poprzez konstruktor
-    @Value("${moviedb.apikey}")
-    private String apiKey;
+@Service
+public class MovieDbClientServiceImpl implements MovieDbClientService {
 
     @Autowired
     RestTemplate restTemplate;
+    //TODO wstrzyknac poprzez konstruktor
+    @Value("${moviedb.apikey}")
+    private String apiKey;
 
     public SearchMovieIdResult findMovieById(Long movieId) throws MovieDbException {
         String urlWithId;

@@ -6,7 +6,7 @@ import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
 
 import java.util.List;
 
-public interface MovieDbServiceClient {
+public interface MovieDbClientService {
 
     List<Result> findMoviesByQuery(String queryName, String year) throws MovieDbException;
     SearchMovieIdResult findMovieById(Long movieId) throws MovieDbException;

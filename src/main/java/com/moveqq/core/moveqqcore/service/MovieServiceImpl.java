@@ -15,7 +15,7 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
-    MovieDbServiceClient movieDbService;
+    MovieDbClientService movieDbService;
 
     @Override
     public List<Movie> getMoviesListByTitle(String name, String year) {
