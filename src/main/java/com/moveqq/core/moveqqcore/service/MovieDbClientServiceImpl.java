@@ -5,7 +5,6 @@ import com.moveqq.core.moveqqcore.fault.MovieDbException;
 import com.moveqq.core.moveqqcore.model.pojo.external.Result;
 import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
 import com.moveqq.core.moveqqcore.model.pojo.external.SearchQueryResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,11 +14,13 @@ import java.util.List;
 @Service
 public class MovieDbClientServiceImpl implements MovieDbClientService {
 
-    @Autowired
-    RestTemplate restTemplate;
-    //TODO wstrzyknac poprzez konstruktor
+    private RestTemplate restTemplate;
     @Value("${moviedb.apikey}")
     private String apiKey;
+
+    public MovieDbClientServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public SearchMovieIdResult findMovieById(Long movieId) throws MovieDbException {
         String urlWithId;

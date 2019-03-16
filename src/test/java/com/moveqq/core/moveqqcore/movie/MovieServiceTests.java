@@ -3,49 +3,45 @@ package com.moveqq.core.moveqqcore.movie;
 import com.moveqq.core.moveqqcore.model.pojo.external.Genre;
 import com.moveqq.core.moveqqcore.model.pojo.external.ProductionCompany;
 import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
+import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
 import com.moveqq.core.moveqqcore.service.MovieDbClientService;
 import com.moveqq.core.moveqqcore.service.MovieService;
 import com.moveqq.core.moveqqcore.service.MovieServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
-import static org.assertj.core.api.Assertions.*;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+@RunWith(MockitoJUnitRunner.class)
 public class MovieServiceTests {
 
-    @MockBean
-    MovieDbClientService movieDbClient;
+    private static final long TEST_MOVIE_ID = 100L;
 
-    @Autowired
-    MovieService movieService;
+    @Mock
+    private MovieDbClientService movieDbService;
 
-    @TestConfiguration
-    static class MovieServiceImplTestContextConfiguration {
 
-        @Bean
-        public MovieService movieService() {
-            return new MovieServiceImpl();
-        }
-    }
+    private MovieService movieService;
 
+    private SearchMovieIdResult movieIdResult;
+    private List<String> genresList;
 
     @Before
     public void setUp() {
-        SearchMovieIdResult movieIdResult = new SearchMovieIdResult();
+        movieDbService = mock(MovieDbClientService.class);
+
+        movieService = new MovieServiceImpl(movieDbService);
+
+        movieIdResult = new SearchMovieIdResult();
         List<Genre> genres = new ArrayList<>();
         Genre genre = new Genre();
         List<ProductionCompany> productionCompanies = new ArrayList<>();
@@ -58,7 +54,7 @@ public class MovieServiceTests {
         productionCompany.setName("Summit Ent.");
         productionCompanies.add(productionCompany);
 
-        movieIdResult.setId(1);
+        movieIdResult.setId(100);
         movieIdResult.setTitle("Shrek");
         movieIdResult.setAdult(false);
         movieIdResult.setBackdropPath("/kzeR7BA0htJ7BeI6QEUX3PVp39s.jpg");
@@ -77,23 +73,19 @@ public class MovieServiceTests {
         movieIdResult.setRuntime(105);
 
         String[] stringsWithGenres = {"Family"};
-        List<String> genresList = Arrays.asList(stringsWithGenres);
-        try {
-            Mockito.when(movieDbClient.findMovieById(100L)).thenReturn(movieIdResult);
-        } catch (Exception e) {
-
-        }
+        genresList = Arrays.asList(stringsWithGenres);
     }
 
     @Test
-    public void shouldReturnMovieById() {
-        try {
-            SearchMovieIdResult fetchedMovie = movieDbClient.findMovieById(100L);
-            assertThat(fetchedMovie.getTitle()).isEqualTo("Shrek");
-            assertThat(fetchedMovie.getGenres()).contains();
-        } catch (Exception e) {
-
-        }
-
+    public void shouldReturnMovieById() throws Exception {
+        when(movieDbService.findMovieById(TEST_MOVIE_ID)).thenReturn(movieIdResult);
+        Movie expectedMovie = new Movie.MovieBuilder(TEST_MOVIE_ID, "Shrek")
+                .withOverview("This is movie about Shrek")
+                .withReleaseDate("1998-03-05")
+                .build();
+        Movie movie = movieService.getMovieById(TEST_MOVIE_ID);
+        assertThat(movie.getId()).isEqualTo(expectedMovie.getId());
+        assertThat(movie.getBudget()).isNotEqualTo(expectedMovie.getBudget());
+        assertThat(movie.getGenres()).isNotEqualTo(expectedMovie.getGenres());
     }
 }

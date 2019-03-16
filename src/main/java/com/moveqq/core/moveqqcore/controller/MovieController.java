@@ -12,19 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/movies")
 public class MovieController {
 
-    @Autowired
-    MovieService movieService;
+    private MovieService movieService;
 
-    @RequestMapping(method = RequestMethod.GET, path = "/movieList")
-    public MovieResponse findMoviesWithQuery(@RequestParam(name = "query") String query,
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
+
+    @GetMapping("/movieList")
+    public MovieResponse getMoviesWithQuery(@RequestParam(name = "query") String query,
                                              @RequestParam(name = "year", required = false) String year) {
         MovieResponse response = new MovieResponse();
         response.setMovieList(movieService.getMoviesListByTitle(query, year));
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/movie/{id}")
-    public MovieResponse findMovieById(@PathVariable(name = "id") String id) {
+    @GetMapping("/movie/{id}")
+    public MovieResponse getMovieById(@PathVariable(name = "id") String id) {
         MovieResponse response = new MovieResponse();
         response.setMovie(movieService.getMovieById(Long.valueOf(id)));
         return response;
