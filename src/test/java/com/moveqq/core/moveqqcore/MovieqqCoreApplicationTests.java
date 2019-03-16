@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MoveqqCoreApplicationTests {
+public class MovieqqCoreApplicationTests {
 
     @Test
     public void contextLoads() {

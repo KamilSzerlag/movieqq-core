@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class MoveqqCoreApplication {
+public class MovieqqCoreApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MoveqqCoreApplication.class, args);
+        SpringApplication.run(MovieqqCoreApplication.class, args);
     }
 
     @Bean

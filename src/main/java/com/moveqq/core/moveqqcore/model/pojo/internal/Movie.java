@@ -1,8 +1,8 @@
 package com.moveqq.core.moveqqcore.model.pojo.internal;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.moveqq.core.moveqqcore.fault.MovieDbErrors;
-import com.moveqq.core.moveqqcore.fault.MovieDbException;
+import com.moveqq.core.moveqqcore.fault.TmdbClientErrors;
+import com.moveqq.core.moveqqcore.fault.TmdbClientException;
 
 import java.util.List;
 
@@ -87,9 +87,9 @@ public class Movie {
         private String posterPath;
 
         //TODO zmiana typu wyjatku
-        public MovieBuilder(Long id, String title) throws MovieDbException {
+        public MovieBuilder(Long id, String title) throws TmdbClientException {
             if (id == null)
-                throw new MovieDbException(MovieDbErrors.MOVIE_DB_BAD_PARAMETERS);
+                throw new TmdbClientException(TmdbClientErrors.MOVIE_DB_BAD_PARAMETERS);
             this.id = id;
             this.title = title;
         }

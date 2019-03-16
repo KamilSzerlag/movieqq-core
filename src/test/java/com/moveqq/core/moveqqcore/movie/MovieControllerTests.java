@@ -1,8 +1,8 @@
 package com.moveqq.core.moveqqcore.movie;
 
 import com.moveqq.core.moveqqcore.controller.MovieController;
-import com.moveqq.core.moveqqcore.fault.MovieDbErrors;
-import com.moveqq.core.moveqqcore.fault.MovieDbException;
+import com.moveqq.core.moveqqcore.fault.TmdbClientErrors;
+import com.moveqq.core.moveqqcore.fault.TmdbClientException;
 import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
 import com.moveqq.core.moveqqcore.service.MovieService;
 import org.junit.Before;
@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -32,8 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MovieControllerTests {
 
     private static final int TEST_MOVIE_ID = 100;
-    private static final String TEST_QUERY_NAME = "Superman";
+    private static final String TEST_QUERY_TITLE = "Superman";
     private static final String TEST_QUERY_YEAR = "2000";
+    private static final String TEST_QUERY_UNKNOWN_TITLE = "UGAJAGA";
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,7 +47,7 @@ public class MovieControllerTests {
     private List<Movie> movieList;
 
     @Before
-    public void initMovie() throws MovieDbException {
+    public void initMovie() throws TmdbClientException {
         Movie testMovieTwo;
         Movie testMovieThree;
         Movie testMovieFour;
@@ -92,13 +94,13 @@ public class MovieControllerTests {
             movieList.add(testMovieThree);
             movieList.add(testMovieFour);
 
-        } catch (MovieDbException e) {
-            throw new MovieDbException(MovieDbErrors.MOVIE_DB_BAD_PARAMETERS);
+        } catch (TmdbClientException e) {
+            throw new TmdbClientException(TmdbClientErrors.MOVIE_DB_BAD_PARAMETERS);
         }
     }
 
     @Test
-    public void shouldReturnMovieByIdUsingGet() throws Exception {
+    public void getMovieById_shouldReturnMovieById() throws Exception {
         given(this.movieService.getMovieById(100L)).willReturn(testMovieOne);
         this.mockMvc.perform(get("/movies/movie/{id}", TEST_MOVIE_ID, MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -115,9 +117,9 @@ public class MovieControllerTests {
     }
 
     @Test
-    public void shouldReturnMovieListByQueryTitle() throws Exception {
-        given(this.movieService.getMoviesListByTitle(TEST_QUERY_NAME, null)).willReturn(movieList);
-        this.mockMvc.perform(get("/movies/movieList?query={name}", TEST_QUERY_NAME, MediaType.APPLICATION_JSON_VALUE))
+    public void getMoviesWithQuery_shouldReturnMovieListByQueryTitle() throws Exception {
+        given(this.movieService.getMoviesListByTitle(TEST_QUERY_TITLE, null)).willReturn(movieList);
+        this.mockMvc.perform(get("/movies/movieList?title={name}", TEST_QUERY_TITLE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.result").value("OK"))
@@ -126,13 +128,21 @@ public class MovieControllerTests {
     }
 
     @Test
-    public void shouldReturnMovieListByQueryTitleAndYear() throws Exception {
-        given(this.movieService.getMoviesListByTitle(TEST_QUERY_NAME, TEST_QUERY_YEAR)).willReturn(movieList);
-        this.mockMvc.perform(get("/movies/movieList?query={name}&year={year}", TEST_QUERY_NAME,                                         TEST_QUERY_YEAR, MediaType.APPLICATION_JSON_VALUE))
+    public void getMoviesWithQuery_shouldReturnMovieListByQueryTitleAndYear() throws Exception {
+        given(this.movieService.getMoviesListByTitle(TEST_QUERY_TITLE, TEST_QUERY_YEAR)).willReturn(movieList);
+        this.mockMvc.perform(get("/movies/movieList?title={name}&year={year}", TEST_QUERY_TITLE,                                         TEST_QUERY_YEAR, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$.result").value("OK"))
                 .andExpect(jsonPath("$.movieList.[0].title").value("Superman vs. Batman"))
                 .andExpect(jsonPath("$.movieList.[1].title").value("Superman and Shrek"));
+    }
+
+    @Test
+    public void getMoviesWithQuery_shouldReturnResultFaild() throws Exception {
+        when(this.movieService.getMoviesListByTitle(TEST_QUERY_UNKNOWN_TITLE, null)).thenReturn(null);
+        this.mockMvc.perform(get("/movies/movieList?title={name}", TEST_QUERY_UNKNOWN_TITLE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result").value("FAILED"));
     }
 }

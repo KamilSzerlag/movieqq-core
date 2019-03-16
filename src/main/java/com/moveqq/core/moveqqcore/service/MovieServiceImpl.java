@@ -1,6 +1,7 @@
 package com.moveqq.core.moveqqcore.service;
 
-import com.moveqq.core.moveqqcore.fault.MovieDbException;
+import com.moveqq.core.moveqqcore.fault.TmdbClientErrors;
+import com.moveqq.core.moveqqcore.fault.TmdbClientException;
 import com.moveqq.core.moveqqcore.model.pojo.external.Genre;
 import com.moveqq.core.moveqqcore.model.pojo.external.Result;
 import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
@@ -13,17 +14,19 @@ import java.util.List;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private MovieDbClientService movieDbService;
+    private TmdbClientService movieDbService;
 
-    public MovieServiceImpl(MovieDbClientService movieDbService) {
+    public MovieServiceImpl(TmdbClientService movieDbService) {
         this.movieDbService = movieDbService;
     }
 
     @Override
-    public List<Movie> getMoviesListByTitle(String name, String year) {
+    public List<Movie> getMoviesListByTitle(String title, String year) {
         List<Movie> movies = new ArrayList<>();
         try {
-            List<Result> searchResult = movieDbService.findMoviesByQuery(name, year);
+            List<Result> searchResult = movieDbService.findMoviesByQuery(title, year);
+            if (searchResult == null)
+                return null;
             for (Result result : searchResult) {
                 Movie movie = new Movie.MovieBuilder(Long.valueOf(result.getId()), result.getTitle())
                         .withOverview(result.getOverview())
@@ -32,10 +35,9 @@ public class MovieServiceImpl implements MovieService {
                         .build();
                 movies.add(movie);
             }
-        } catch (MovieDbException e) {
-            //TODO oblsuga wyjatku;
+        } catch (TmdbClientException e) {
+            //TODO zastanowic sie nad prawidlowa obsluga
         }
-        //TODO przeniesienie return do try
         return movies;
     }
 
@@ -44,6 +46,8 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = null;
         try {
             SearchMovieIdResult result = movieDbService.findMovieById(movieId);
+            if (result == null)
+                return null;
             movie = new Movie.MovieBuilder(Long.valueOf(result.getId()), result.getTitle())
                     .withOverview(result.getOverview())
                     .withReleaseDate(result.getReleaseDate())
@@ -53,7 +57,7 @@ public class MovieServiceImpl implements MovieService {
                     .withPosterPath(result.getPosterPath())
                     .build();
 
-        } catch (MovieDbException e) {
+        } catch (TmdbClientException e) {
             //TODO obsluga wyjatku
         }
         return movie;

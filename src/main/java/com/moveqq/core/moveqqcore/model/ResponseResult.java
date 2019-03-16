@@ -2,9 +2,9 @@ package com.moveqq.core.moveqqcore.model;
 
 public class ResponseResult {
 
-    protected ResultType result = ResultType.OK;
+    private ResultType result = ResultType.OK;
 
-    protected enum ResultType {
+    public enum ResultType {
         OK("OK"),
         FAILED("FAILED");
 

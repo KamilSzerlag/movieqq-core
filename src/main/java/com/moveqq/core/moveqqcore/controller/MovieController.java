@@ -1,10 +1,13 @@
 package com.moveqq.core.moveqqcore.controller;
 
+import com.moveqq.core.moveqqcore.model.ResponseResult;
+import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
 import com.moveqq.core.moveqqcore.model.restbody.MovieResponse;
 import com.moveqq.core.moveqqcore.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(value = "http://localhost:4200", maxAge = 3500)
 @RestController
@@ -19,10 +22,13 @@ public class MovieController {
     }
 
     @GetMapping("/movieList")
-    public MovieResponse getMoviesWithQuery(@RequestParam(name = "query") String query,
-                                             @RequestParam(name = "year", required = false) String year) {
+    public MovieResponse getMoviesWithQuery(@RequestParam(name = "title") String title,
+                                            @RequestParam(name = "year", required = false) String year) {
         MovieResponse response = new MovieResponse();
-        response.setMovieList(movieService.getMoviesListByTitle(query, year));
+        List<Movie> movieList = movieService.getMoviesListByTitle(title, year);
+        if (movieList == null)
+            response.setResult(ResponseResult.ResultType.FAILED);
+        response.setMovieList(movieList);
         return response;
     }
 
