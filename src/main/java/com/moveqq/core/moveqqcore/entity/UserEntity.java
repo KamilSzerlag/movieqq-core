@@ -4,11 +4,17 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    List<MovieEntity> movies;
+    private List<MovieEntity> movies;
 
+    public List<MovieEntity> getMovies() {
+        return movies;
+    }
 
+    public void setMovies(List<MovieEntity> movies) {
+        this.movies = movies;
+    }
 }

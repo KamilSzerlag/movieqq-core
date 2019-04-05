@@ -4,21 +4,25 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "names")
+@Table(name = "movies")
 public class MovieEntity extends BaseEntity {
 
     private String title;
     private String overView;
     private String releaseDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie", fetch = FetchType.EAGER)
-    private List<String> genres;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movies", fetch = FetchType.EAGER)
+    private List<GenreEntity> genres;
 
     private String originalTitle;
     private String originalLanguage;
     private Integer budget;
     private Double popularity;
     private String posterPath;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     public String getTitle() {
         return title;
@@ -44,11 +48,12 @@ public class MovieEntity extends BaseEntity {
         this.releaseDate = releaseDate;
     }
 
-    public List<String> getGenres() {
+
+    public List<GenreEntity> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(List<GenreEntity> genres) {
         this.genres = genres;
     }
 
