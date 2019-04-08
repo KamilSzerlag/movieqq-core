@@ -1,8 +1,8 @@
 package com.moveqq.core.moveqqcore.repository;
 
 import com.moveqq.core.moveqqcore.entity.UserEntity;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends Repository<UserEntity, Long> {
-    UserEntity saveUser(UserEntity user);
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
+
 }
