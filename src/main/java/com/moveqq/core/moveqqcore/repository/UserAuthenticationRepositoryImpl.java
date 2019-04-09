@@ -23,15 +23,18 @@ public class UserRepositoryImpl implements UserAuthenticationRepository{
     public UserEntity saveUserWithEncryption(UserEntity userEntity) {
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         em.persist(userEntity);
+        em.flush();
         return userEntity;
     }
 
     @Override
     @Transactional
-    public UserEntity getUserEntityByLoginWithAuthentication(String login, String password) {
-        UserEntity user = em.createQuery("select login, password from users where login = :login", UserEntity.class)
+    public UserEntity getUserEntityByLoginWithAuthentication(String login, String password) throws Exception{
+        UserEntity user = em.createQuery("select login, password from UserEntity where login=:login", UserEntity.class)
                             .setParameter("login",login).getSingleResult();
-        passwordEncoder.matches(password, user.getPassword());
+        boolean correctPassword = passwordEncoder.matches(password, user.getPassword());
+        if (!correctPassword)
+            throw new Exception("Incorrect Login or Password");
         return user;
     }
 
