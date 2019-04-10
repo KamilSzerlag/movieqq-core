@@ -9,8 +9,7 @@ public class GenreEntity extends BaseEntity{
 
     private String name;
 
-    @ManyToOne(targetEntity = MovieEntity.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "movie_id")
+    @ManyToMany(targetEntity = MovieEntity.class, fetch = FetchType.EAGER)
     private List<MovieEntity> movies;
 
     public String getName() {

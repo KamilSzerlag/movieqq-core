@@ -19,6 +19,13 @@ public class ResponseResult {
         }
     }
 
+    public ResponseResult() {
+    }
+
+    public ResponseResult(ResultType result) {
+        this.result = result;
+    }
+
     public ResultType getResult() {
         return result;
     }

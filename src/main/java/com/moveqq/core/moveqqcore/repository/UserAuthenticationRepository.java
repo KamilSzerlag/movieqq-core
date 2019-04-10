@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserAuthenticationRepository {
    UserEntity saveUserWithEncryption(UserEntity userEntity);
-   UserEntity getUserEntityByLoginWithAuthentication(String login, String password);
+   UserEntity getUserEntityByLoginWithAuthentication(String login, String password) throws Exception;
 }

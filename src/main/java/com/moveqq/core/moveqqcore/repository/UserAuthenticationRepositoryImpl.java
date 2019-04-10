@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 @Component
-public class UserRepositoryImpl implements UserAuthenticationRepository{
+public class UserAuthenticationRepositoryImpl implements UserAuthenticationRepository{
 
     private EntityManager em;
     private PasswordEncoder passwordEncoder;
 
-    public UserRepositoryImpl(EntityManager em, PasswordEncoder passwordEncoder) {
+    public UserAuthenticationRepositoryImpl(EntityManager em, PasswordEncoder passwordEncoder) {
         this.em = em;
         this.passwordEncoder = passwordEncoder;
     }

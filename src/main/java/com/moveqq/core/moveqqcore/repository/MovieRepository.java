@@ -1,7 +1,11 @@
 package com.moveqq.core.moveqqcore.repository;
 
 import com.moveqq.core.moveqqcore.entity.MovieEntity;
-import org.springframework.data.repository.Repository;
+import com.moveqq.core.moveqqcore.entity.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MovieRepository extends Repository<MovieEntity, Long> {
+import java.util.List;
+
+public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
+    List<MovieEntity> findMovieEntitiesByUsersIs(UserEntity userEntity);
 }

@@ -7,12 +7,13 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
+    @Column(unique = true)
     private String login;
 
     private String password;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "users", fetch = FetchType.EAGER)
     private List<MovieEntity> movies;
 
     public List<MovieEntity> getMovies() {

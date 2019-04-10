@@ -2,16 +2,18 @@ package com.moveqq.core.moveqqcore.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "movies")
 public class MovieEntity extends BaseEntity {
 
     private String title;
+    @Lob
     private String overView;
     private String releaseDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movies", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "movies", fetch = FetchType.LAZY)
     private List<GenreEntity> genres;
 
     private String originalTitle;
@@ -20,9 +22,8 @@ public class MovieEntity extends BaseEntity {
     private Double popularity;
     private String posterPath;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserEntity> users;
 
     public String getTitle() {
         return title;

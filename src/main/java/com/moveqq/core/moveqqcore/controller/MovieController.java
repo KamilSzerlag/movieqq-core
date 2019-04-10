@@ -11,7 +11,6 @@ import java.util.List;
 
 @CrossOrigin(value = "http://localhost:4200", maxAge = 3500)
 @RestController
-@Controller
 @RequestMapping(path = "/movies")
 public class MovieController {
 
