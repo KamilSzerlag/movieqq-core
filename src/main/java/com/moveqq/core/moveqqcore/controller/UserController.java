@@ -1,6 +1,7 @@
 package com.moveqq.core.moveqqcore.controller;
 
 import com.moveqq.core.moveqqcore.entity.UserEntity;
+import com.moveqq.core.moveqqcore.model.dto.internal.User;
 import com.moveqq.core.moveqqcore.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class UserController {
     }
 
     @PutMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody UserEntity userEntity) {
-        userService.createUser(userEntity);
-        return new ResponseEntity<>(userEntity.getLogin(), HttpStatus.CREATED);
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        userService.createUser(user);
+        return new ResponseEntity<>(user.getLogin(), HttpStatus.CREATED);
     }
 }

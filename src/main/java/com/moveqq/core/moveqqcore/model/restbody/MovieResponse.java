@@ -2,7 +2,7 @@ package com.moveqq.core.moveqqcore.model.restbody;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.moveqq.core.moveqqcore.model.ResponseResult;
-import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
+import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 
 import java.util.List;
 

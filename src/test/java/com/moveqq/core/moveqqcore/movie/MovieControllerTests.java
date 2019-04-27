@@ -3,7 +3,7 @@ package com.moveqq.core.moveqqcore.movie;
 import com.moveqq.core.moveqqcore.controller.MovieController;
 import com.moveqq.core.moveqqcore.fault.TmdbClientErrors;
 import com.moveqq.core.moveqqcore.fault.TmdbClientException;
-import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
+import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 import com.moveqq.core.moveqqcore.service.MovieService;
 import org.junit.Before;
 import org.junit.Test;

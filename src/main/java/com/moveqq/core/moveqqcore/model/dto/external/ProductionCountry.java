@@ -1,35 +1,35 @@
 
-package com.moveqq.core.moveqqcore.model.pojo.external;
+package com.moveqq.core.moveqqcore.model.dto.external;
 
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 @JsonPropertyOrder({
-    "iso_639_1",
+    "iso_3166_1",
     "name"
 })
-public class SpokenLanguage {
+public class ProductionCountry {
 
-    @JsonProperty("iso_639_1")
-    private String iso6391;
+    @JsonProperty("iso_3166_1")
+    private String iso31661;
     @JsonProperty("name")
     private String name;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("iso_639_1")
-    public String getIso6391() {
-        return iso6391;
+    @JsonProperty("iso_3166_1")
+    public String getIso31661() {
+        return iso31661;
     }
 
-    @JsonProperty("iso_639_1")
-    public void setIso6391(String iso6391) {
-        this.iso6391 = iso6391;
+    @JsonProperty("iso_3166_1")
+    public void setIso31661(String iso31661) {
+        this.iso31661 = iso31661;
     }
 
     @JsonProperty("name")

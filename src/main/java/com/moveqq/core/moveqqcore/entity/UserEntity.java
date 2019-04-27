@@ -12,6 +12,8 @@ public class UserEntity extends BaseEntity {
 
     private String password;
 
+    private String email;
+
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "users", fetch = FetchType.EAGER)
     private List<MovieEntity> movies;
@@ -38,5 +40,13 @@ public class UserEntity extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

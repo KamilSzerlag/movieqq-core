@@ -1,4 +1,4 @@
-package com.moveqq.core.moveqqcore.model.pojo.internal;
+package com.moveqq.core.moveqqcore.model.dto.internal;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.moveqq.core.moveqqcore.fault.TmdbClientErrors;

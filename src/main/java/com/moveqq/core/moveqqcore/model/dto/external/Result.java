@@ -1,4 +1,4 @@
-package com.moveqq.core.moveqqcore.model.pojo.external;
+package com.moveqq.core.moveqqcore.model.dto.external;
 
 import com.fasterxml.jackson.annotation.*;
 

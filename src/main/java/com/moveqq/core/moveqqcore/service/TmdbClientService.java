@@ -1,8 +1,8 @@
 package com.moveqq.core.moveqqcore.service;
 
 import com.moveqq.core.moveqqcore.fault.TmdbClientException;
-import com.moveqq.core.moveqqcore.model.pojo.external.Result;
-import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
+import com.moveqq.core.moveqqcore.model.dto.external.Result;
+import com.moveqq.core.moveqqcore.model.dto.external.SearchMovieIdResult;
 
 import java.util.List;
 

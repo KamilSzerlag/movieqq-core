@@ -1,10 +1,9 @@
 package com.moveqq.core.moveqqcore.controller;
 
 import com.moveqq.core.moveqqcore.model.ResponseResult;
-import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
+import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 import com.moveqq.core.moveqqcore.model.restbody.MovieResponse;
 import com.moveqq.core.moveqqcore.service.MovieService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

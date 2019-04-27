@@ -2,7 +2,6 @@ package com.moveqq.core.moveqqcore.entity;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "movies")

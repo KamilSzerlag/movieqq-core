@@ -1,11 +1,10 @@
 package com.moveqq.core.moveqqcore.service;
 
 import com.moveqq.core.moveqqcore.fault.TmdbClientException;
-import com.moveqq.core.moveqqcore.model.pojo.external.Genre;
-import com.moveqq.core.moveqqcore.model.pojo.external.Result;
-import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
-import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
-import com.moveqq.core.moveqqcore.repository.MovieRepository;
+import com.moveqq.core.moveqqcore.model.dto.external.Genre;
+import com.moveqq.core.moveqqcore.model.dto.external.Result;
+import com.moveqq.core.moveqqcore.model.dto.external.SearchMovieIdResult;
+import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

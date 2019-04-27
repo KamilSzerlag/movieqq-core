@@ -1,9 +1,9 @@
 package com.moveqq.core.moveqqcore.movie;
 
-import com.moveqq.core.moveqqcore.model.pojo.external.Genre;
-import com.moveqq.core.moveqqcore.model.pojo.external.ProductionCompany;
-import com.moveqq.core.moveqqcore.model.pojo.external.SearchMovieIdResult;
-import com.moveqq.core.moveqqcore.model.pojo.internal.Movie;
+import com.moveqq.core.moveqqcore.model.dto.external.Genre;
+import com.moveqq.core.moveqqcore.model.dto.external.ProductionCompany;
+import com.moveqq.core.moveqqcore.model.dto.external.SearchMovieIdResult;
+import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 import com.moveqq.core.moveqqcore.service.MovieService;
 import com.moveqq.core.moveqqcore.service.MovieServiceImpl;
 import com.moveqq.core.moveqqcore.service.TmdbClientService;
