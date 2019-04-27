@@ -1,6 +1,5 @@
 package com.moveqq.core.moveqqcore.controller;
 
-import com.moveqq.core.moveqqcore.entity.UserEntity;
 import com.moveqq.core.moveqqcore.model.dto.internal.User;
 import com.moveqq.core.moveqqcore.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -22,5 +21,15 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody User user) {
         userService.createUser(user);
         return new ResponseEntity<>(user.getLogin(), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody User user) {
+        try {
+            return new ResponseEntity<>(userService.checkUserCredentials(user), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
     }
 }

@@ -5,11 +5,11 @@ import com.moveqq.core.moveqqcore.entity.UserEntity;
 import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 import com.moveqq.core.moveqqcore.repository.MovieRepository;
 import com.moveqq.core.moveqqcore.repository.ToWatchRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class ToWatchServiceImpl implements ToWatchService {
 
     private MovieService movieService;
