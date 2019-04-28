@@ -4,14 +4,17 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "answers")
 public class AnswerEntity extends BaseEntity {
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     private QuestionEntity question;
 
+    @NotNull
     private String answerContent;
 
     private Boolean isCorrect = false;

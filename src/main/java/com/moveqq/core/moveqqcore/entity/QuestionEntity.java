@@ -1,21 +1,34 @@
 package com.moveqq.core.moveqqcore.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "questions")
 public class QuestionEntity extends BaseEntity{
+    @NotNull
+    private String questionContent;
 
+    @NotNull
     @ManyToOne
     private MovieEntity movie;
 
+    @NotNull
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
     private List<AnswerEntity> answers;
 
-    private Integer points;
+    private Integer points = 0;
 
-    private Integer time;
+    private Integer time = 90;
+
+    public String getQuestionContent() {
+        return questionContent;
+    }
+
+    public void setQuestionContent(String questionContent) {
+        this.questionContent = questionContent;
+    }
 
     public MovieEntity getMovie() {
         return movie;

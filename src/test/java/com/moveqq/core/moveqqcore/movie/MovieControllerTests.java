@@ -139,7 +139,7 @@ public class MovieControllerTests {
     }
 
     @Test
-    public void getMoviesWithQuery_shouldReturnResultFaild() throws Exception {
+    public void getMoviesWithQuery_shouldReturnResultFailed() throws Exception {
         when(this.movieService.getMoviesListByTitle(TEST_QUERY_UNKNOWN_TITLE, null)).thenReturn(null);
         this.mockMvc.perform(get("/movies/movieList?title={name}", TEST_QUERY_UNKNOWN_TITLE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
