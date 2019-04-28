@@ -31,6 +31,7 @@ public class MovieServiceTests {
     @Mock
     private TmdbClientService tmdbClientService;
 
+
     private MovieService movieService;
 
     private SearchMovieIdResult movieIdResult;
