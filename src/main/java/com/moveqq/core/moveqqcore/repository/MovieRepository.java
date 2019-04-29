@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
     List<MovieEntity> findMovieEntitiesByUsersIs(UserEntity userEntity);
-    MovieEntity findMovieEntityById(Long movieId);
 }

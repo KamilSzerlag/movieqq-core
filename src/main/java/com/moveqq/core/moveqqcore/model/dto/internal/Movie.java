@@ -13,7 +13,7 @@ public class Movie {
     private String title;
     private String overView;
     private String releaseDate;
-    private List<Genre> genres;
+    private List<String> genres;
     private String originalTitle;
     private String originalLanguage;
     private Integer budget;
@@ -49,7 +49,7 @@ public class Movie {
         return releaseDate;
     }
 
-    public List<Genre> getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
@@ -79,7 +79,7 @@ public class Movie {
         private String title;
         private String overView;
         private String releaseDate;
-        private List<Genre> genres;
+        private List<String> genres;
         private String originalTitle;
         private String originalLanguage;
         private Integer budget;
@@ -104,7 +104,7 @@ public class Movie {
             return this;
         }
 
-        public MovieBuilder withGenres(List<Genre> genres) {
+        public MovieBuilder withGenres(List<String> genres) {
             this.genres = genres;
             return this;
         }

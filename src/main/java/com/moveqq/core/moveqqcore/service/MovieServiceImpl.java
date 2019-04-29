@@ -64,13 +64,11 @@ public class MovieServiceImpl implements MovieService {
         return movie;
     }
 
-    private List<com.moveqq.core.moveqqcore.model.dto.internal.Genre> getMovieGenres(List<Genre> genres) {
-        List<com.moveqq.core.moveqqcore.model.dto.internal.Genre> genresInternal = new ArrayList<>();
-        for (Genre genre : genres) {
-            com.moveqq.core.moveqqcore.model.dto.internal.Genre genreInternal = new com.moveqq.core.moveqqcore.model.dto.internal.Genre();
-            genreInternal.setName(genre.getName());
-        }
-        return genresInternal;
+    private List<String> getMovieGenres(List<Genre> genres) {
+        List<String> genresString = new ArrayList<>();
+        for (Genre genre : genres)
+            genresString.add(genre.getName());
+        return genresString;
     }
 
 }

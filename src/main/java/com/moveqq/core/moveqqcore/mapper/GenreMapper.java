@@ -1,12 +1,11 @@
 package com.moveqq.core.moveqqcore.mapper;
 
 import com.moveqq.core.moveqqcore.entity.GenreEntity;
-import com.moveqq.core.moveqqcore.model.dto.internal.Genre;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -14,12 +13,24 @@ public interface GenreMapper {
 
     GenreMapper GENRE_MAPPER = Mappers.getMapper(GenreMapper.class);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "movies", ignore = true)
-    GenreEntity toEntity(Genre genre);
+    default List<GenreEntity> toName(List<String> genres){
+        List<GenreEntity> list = new ArrayList<>();
+        for (String g: genres) {
+            GenreEntity entity = new GenreEntity();
+            entity.setName(g);
+            list.add(entity);
+        }
+        return list;
+    }
 
     @InheritInverseConfiguration
-    Genre genres(GenreEntity entity);
+    default List<String> fromGenre(List<GenreEntity> genreEntities) {
+        List<String> genres = new ArrayList<>();
+        for (GenreEntity genreEntity : genreEntities) {
+            genres.add(genreEntity.getName());
+        }
+        return genres;
+    }
 
 
 }
