@@ -19,7 +19,7 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/movieList")
+    @GetMapping("/movies")
     public MovieResponse getMoviesWithQuery(@RequestParam(name = "title") String title,
                                             @RequestParam(name = "year", required = false) String year) {
         MovieResponse response = new MovieResponse();
@@ -30,8 +30,8 @@ public class MovieController {
         return response;
     }
 
-    @GetMapping("/movie/{id}")
-    public MovieResponse getMovieById(@PathVariable(name = "id") String id) {
+    @GetMapping("/movie-{movieId}")
+    public MovieResponse getMovieById(@PathVariable(name = "movieId") String id) {
         MovieResponse response = new MovieResponse();
         response.setMovie(movieService.getMovieById(Long.valueOf(id)));
         return response;

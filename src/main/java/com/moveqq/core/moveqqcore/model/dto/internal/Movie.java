@@ -1,11 +1,14 @@
 package com.moveqq.core.moveqqcore.model.dto.internal;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.moveqq.core.moveqqcore.fault.TmdbClientErrors;
 import com.moveqq.core.moveqqcore.fault.TmdbClientException;
 
 import java.util.List;
 
+@JsonDeserialize(builder = Movie.MovieBuilder.class)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class Movie {
 
@@ -73,6 +76,7 @@ public class Movie {
         return posterPath;
     }
 
+    @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")
     public static class MovieBuilder {
 
         private Long id;

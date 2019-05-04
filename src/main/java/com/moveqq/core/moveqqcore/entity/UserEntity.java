@@ -15,7 +15,7 @@ public class UserEntity extends BaseEntity {
     private String email;
 
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "users", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MovieEntity> movies;
 
     public List<MovieEntity> getMovies() {

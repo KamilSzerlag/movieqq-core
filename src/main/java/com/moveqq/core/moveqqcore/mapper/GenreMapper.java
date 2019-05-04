@@ -1,7 +1,6 @@
 package com.moveqq.core.moveqqcore.mapper;
 
 import com.moveqq.core.moveqqcore.entity.GenreEntity;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -23,7 +22,6 @@ public interface GenreMapper {
         return list;
     }
 
-    @InheritInverseConfiguration
     default List<String> fromGenre(List<GenreEntity> genreEntities) {
         List<String> genres = new ArrayList<>();
         for (GenreEntity genreEntity : genreEntities) {

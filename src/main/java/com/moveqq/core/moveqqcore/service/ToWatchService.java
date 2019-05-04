@@ -12,6 +12,11 @@ import java.util.List;
  */
 
 public interface ToWatchService {
-    boolean addMovieToList(Movie movie);
-    List<MovieEntity> moviesOnUserList(UserEntity userEntity);
+    boolean addMovieToUserList(long userID, long movieID);
+
+    MovieEntity getMovieFromUserList(long userID, long movieID);
+
+    List<MovieEntity> getMoviesFromUserList(long userID);
+
+    void updateWatchState(long userId, long movieId);
 }

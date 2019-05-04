@@ -7,12 +7,13 @@ import java.util.List;
 @Table(name = "movies")
 public class MovieEntity extends BaseEntity {
 
+    private Long tmdbId;
     private String title;
     @Lob
     private String overView;
     private String releaseDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "movies", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GenreEntity> genres;
 
     private String originalTitle;
@@ -21,8 +22,27 @@ public class MovieEntity extends BaseEntity {
     private Double popularity;
     private String posterPath;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "movies", fetch = FetchType.EAGER)
     private List<UserEntity> users;
+
+    @Column(columnDefinition = "Boolean default false")
+    private Boolean watched;
+
+    public Long getTmdbId() {
+        return tmdbId;
+    }
+
+    public void setTmdbId(Long tmdbId) {
+        this.tmdbId = tmdbId;
+    }
+
+    public List<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
+    }
 
     public String getTitle() {
         return title;
@@ -95,5 +115,13 @@ public class MovieEntity extends BaseEntity {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public boolean isWatched() {
+        return watched;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
     }
 }

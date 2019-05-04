@@ -18,10 +18,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping("/create")
+    @PutMapping("/signin")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         userService.createUser(user);
-        return new ResponseEntity<>(user.getLogin(), HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

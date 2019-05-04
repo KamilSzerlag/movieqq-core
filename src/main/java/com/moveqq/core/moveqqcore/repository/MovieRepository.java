@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
-    List<MovieEntity> findMovieEntitiesByUsersIs(UserEntity userEntity);
+    MovieEntity findMovieEntityByUsersAndTmdbId(UserEntity userEntity, long movieID);
+    List<MovieEntity> findMovieEntitiesByUsers(UserEntity userEntity);
 }

@@ -43,7 +43,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieById(Long movieId) {
+    public Movie getMovieById(long movieId) {
         Movie movie = null;
         try {
             SearchMovieIdResult result = movieDbService.findMovieById(movieId);
