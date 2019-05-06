@@ -1,7 +1,9 @@
 package com.moveqq.core.moveqqcore.entity;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -16,13 +18,13 @@ public class UserEntity extends BaseEntity {
 
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<MovieEntity> movies;
+    private Set<MovieEntity> movies;
 
-    public List<MovieEntity> getMovies() {
+    public Set<MovieEntity> getMovies() {
         return movies;
     }
 
-    public void setMovies(List<MovieEntity> movies) {
+    public void setMovies(Set<MovieEntity> movies) {
         this.movies = movies;
     }
 
@@ -48,5 +50,20 @@ public class UserEntity extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equal(login, that.login) &&
+                Objects.equal(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(login, email);
     }
 }

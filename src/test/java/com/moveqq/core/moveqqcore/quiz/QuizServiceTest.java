@@ -95,4 +95,5 @@ public class QuizServiceTest {
         assertThat(questionEntity.getMovie()).isNotNull();
 
     }
+
 }

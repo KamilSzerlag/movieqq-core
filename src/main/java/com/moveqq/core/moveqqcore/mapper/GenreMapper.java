@@ -12,22 +12,28 @@ public interface GenreMapper {
 
     GenreMapper GENRE_MAPPER = Mappers.getMapper(GenreMapper.class);
 
-    default List<GenreEntity> toName(List<String> genres){
-        List<GenreEntity> list = new ArrayList<>();
-        for (String g: genres) {
-            GenreEntity entity = new GenreEntity();
-            entity.setName(g);
-            list.add(entity);
+    default List<GenreEntity> toName(List<String> genres) {
+        if (genres != null && !genres.isEmpty()) {
+            List<GenreEntity> list = new ArrayList<>();
+            for (String g : genres) {
+                GenreEntity entity = new GenreEntity();
+                entity.setName(g);
+                list.add(entity);
+            }
+            return list;
         }
-        return list;
+        return null;
     }
 
     default List<String> fromGenre(List<GenreEntity> genreEntities) {
-        List<String> genres = new ArrayList<>();
-        for (GenreEntity genreEntity : genreEntities) {
-            genres.add(genreEntity.getName());
+        if (genreEntities != null && !genreEntities.isEmpty()) {
+            List<String> genres = new ArrayList<>();
+            for (GenreEntity genreEntity : genreEntities) {
+                genres.add(genreEntity.getName());
+            }
+            return genres;
         }
-        return genres;
+        return null;
     }
 
 

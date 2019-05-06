@@ -5,12 +5,12 @@ import com.moveqq.core.moveqqcore.fault.TmdbClientException;
 import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 import com.moveqq.core.moveqqcore.repository.MovieRepository;
 import org.mapstruct.Context;
-import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(uses = GenreMapper.class)
 public interface MovieMapper {
@@ -39,6 +39,6 @@ public interface MovieMapper {
             return null;
     }
 
-    List<Movie> fromEntities(List<MovieEntity> entities);
+    List<Movie> fromEntities(Set<MovieEntity> entities);
 
 }

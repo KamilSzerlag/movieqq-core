@@ -1,5 +1,7 @@
 package com.moveqq.core.moveqqcore.movie;
 
+import com.moveqq.core.moveqqcore.entity.MovieEntity;
+import com.moveqq.core.moveqqcore.mapper.MovieMapper;
 import com.moveqq.core.moveqqcore.model.dto.external.Genre;
 import com.moveqq.core.moveqqcore.model.dto.external.ProductionCompany;
 import com.moveqq.core.moveqqcore.model.dto.external.SearchMovieIdResult;
@@ -111,5 +113,26 @@ public class MovieServiceTests {
     public void shouldReturnListWithGenresTypeOfString() throws Exception {
         when(tmdbClientService.findMovieById(TEST_MOVIE_ID)).thenReturn(movieIdResult);
         assertThat(movieService.getMovieById(TEST_MOVIE_ID).getGenres()).isEqualTo(genresList);
+    }
+
+    @Test
+    public void shouldBeEqualsByEqualsMethodAndHashCode() throws Exception {
+        Movie movieFirst = new Movie.MovieBuilder(1L, "Okon")
+                .withBudget(1313)
+                .build();
+        Movie movieSecond = new Movie.MovieBuilder(1L, "Okon")
+                .withBudget(131)
+                .withOverview("abcd")
+                .build();
+        Movie movieThird = new Movie.MovieBuilder(2L, "Pantera")
+                .build();
+        MovieEntity movieEntityFirst = MovieMapper.MOVIE_MAPPER.toEntity(movieFirst);
+        MovieEntity movieEntitySecond = MovieMapper.MOVIE_MAPPER.toEntity(movieSecond);
+        MovieEntity movieEntityThird = MovieMapper.MOVIE_MAPPER.toEntity(movieThird);
+        movieEntityFirst.setId(100L);
+        movieEntitySecond.setId(211L);
+        assertThat(movieEntityFirst).isEqualTo(movieEntitySecond);
+        assertThat(movieEntityFirst.hashCode()).isEqualTo(movieEntitySecond.hashCode());
+        assertThat(movieEntityFirst).isNotEqualTo(movieEntityThird);
     }
 }

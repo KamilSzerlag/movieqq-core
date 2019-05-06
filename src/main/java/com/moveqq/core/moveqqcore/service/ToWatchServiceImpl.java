@@ -8,12 +8,14 @@ import com.moveqq.core.moveqqcore.repository.MovieRepository;
 import com.moveqq.core.moveqqcore.repository.ToWatchRepository;
 import com.moveqq.core.moveqqcore.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
+@Transactional
 public class ToWatchServiceImpl implements ToWatchService {
 
     private UserService userService;
@@ -37,7 +39,6 @@ public class ToWatchServiceImpl implements ToWatchService {
         Movie movie = movieService.getMovieById(movieId);
         if (movie != null)
             userEntity.getMovies().add(MovieMapper.MOVIE_MAPPER.toEntity(movie));
-        userRepository.save(userEntity);
         return true;
     }
 
@@ -53,7 +54,7 @@ public class ToWatchServiceImpl implements ToWatchService {
     }
 
     @Override
-    public List<MovieEntity> getMoviesFromUserList(long userId) {
+    public Set<MovieEntity> getMoviesFromUserList(long userId) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
         UserEntity userEntity = userEntityOptional.orElseThrow(NoSuchElementException::new);
         return userEntity.getMovies();
@@ -63,5 +64,25 @@ public class ToWatchServiceImpl implements ToWatchService {
     public void updateWatchState(long userId, long movieId) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
         UserEntity userEntity = userEntityOptional.orElseThrow(NoSuchElementException::new);
+        userEntity.getMovies()
+                .stream()
+                .filter(m -> m.getTmdbId()
+                        .equals(movieId))
+                .forEach(m -> m.setWatched(true));
+    }
+
+    @Override
+    public void deleteMovieFromUserList(long userId, long movieId) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
+        UserEntity userEntity = userEntityOptional.orElseThrow(NoSuchElementException::new);
+        Set<MovieEntity> movieEntitiesSet = userEntity.getMovies();
+        MovieEntity movieEntityToDelete = null;
+        if (movieEntitiesSet != null && !movieEntitiesSet.isEmpty()) {
+            for (MovieEntity m: userEntity.getMovies()) {
+                if (m.getTmdbId().equals(movieId))
+                    movieEntityToDelete = m;
+            }
+            userEntity.getMovies().remove(movieEntityToDelete);
+        }
     }
 }

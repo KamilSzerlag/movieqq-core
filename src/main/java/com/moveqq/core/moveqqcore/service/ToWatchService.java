@@ -1,10 +1,8 @@
 package com.moveqq.core.moveqqcore.service;
 
 import com.moveqq.core.moveqqcore.entity.MovieEntity;
-import com.moveqq.core.moveqqcore.entity.UserEntity;
-import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Obsluga listy
@@ -16,7 +14,9 @@ public interface ToWatchService {
 
     MovieEntity getMovieFromUserList(long userID, long movieID);
 
-    List<MovieEntity> getMoviesFromUserList(long userID);
+    Set<MovieEntity> getMoviesFromUserList(long userID);
 
     void updateWatchState(long userId, long movieId);
+
+    void deleteMovieFromUserList(long userId, long movieId);
 }
