@@ -39,6 +39,7 @@ public class ToWatchServiceImpl implements ToWatchService {
         Movie movie = movieService.getMovieById(movieId);
         if (movie != null)
             userEntity.getMovies().add(MovieMapper.MOVIE_MAPPER.toEntity(movie));
+        userRepository.save(userEntity);
         return true;
     }
 
@@ -83,6 +84,7 @@ public class ToWatchServiceImpl implements ToWatchService {
                     movieEntityToDelete = m;
             }
             userEntity.getMovies().remove(movieEntityToDelete);
+            movieRepository.delete(movieEntityToDelete);
         }
     }
 }

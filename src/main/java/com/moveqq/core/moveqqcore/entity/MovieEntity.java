@@ -25,7 +25,7 @@ public class MovieEntity extends BaseEntity {
     private Double popularity;
     private String posterPath;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "movies", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "movies")
     private Set<UserEntity> users;
 
     @Column(columnDefinition = "Boolean default false")

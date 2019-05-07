@@ -9,7 +9,7 @@ public class GenreEntity extends BaseEntity{
 
     private String name;
 
-    @ManyToMany(targetEntity = MovieEntity.class,mappedBy = "genres",fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = MovieEntity.class, mappedBy = "genres", fetch = FetchType.EAGER)
     private List<MovieEntity> movies;
 
     public String getName() {
