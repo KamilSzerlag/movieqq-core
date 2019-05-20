@@ -1,11 +1,14 @@
 package com.moveqq.core.moveqqcore.movie;
 
+import com.moveqq.core.moveqqcore.entity.GenreEntity;
 import com.moveqq.core.moveqqcore.entity.MovieEntity;
+import com.moveqq.core.moveqqcore.mapper.GenreMapper;
 import com.moveqq.core.moveqqcore.mapper.MovieMapper;
 import com.moveqq.core.moveqqcore.model.dto.external.Genre;
 import com.moveqq.core.moveqqcore.model.dto.external.ProductionCompany;
 import com.moveqq.core.moveqqcore.model.dto.external.SearchMovieIdResult;
 import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
+import com.moveqq.core.moveqqcore.repository.GenresRepository;
 import com.moveqq.core.moveqqcore.service.MovieService;
 import com.moveqq.core.moveqqcore.service.MovieServiceImpl;
 import com.moveqq.core.moveqqcore.service.TmdbClientService;
@@ -33,11 +36,15 @@ public class MovieServiceTests {
     @Mock
     private TmdbClientService tmdbClientService;
 
+    @Mock
+    private GenresRepository genresRepository;
 
     private MovieService movieService;
 
     private SearchMovieIdResult movieIdResult;
     private List<String> genresList;
+    private List<GenreEntity> genreComedy;
+    private List<GenreEntity> expectedGenres;
 
     @Before
     public void setUp() {
@@ -82,6 +89,16 @@ public class MovieServiceTests {
 
         String[] stringsWithGenres = {"Family","Comedy","Funny"};
         genresList = Arrays.asList(stringsWithGenres);
+        GenreEntity comedy = new GenreEntity();
+        comedy.setName("Comedy");
+        genreComedy = new ArrayList<>();
+        genreComedy.add(comedy);
+        expectedGenres = new ArrayList<>();
+        for (String genreName: stringsWithGenres) {
+            GenreEntity genreEntity = new GenreEntity();
+            genreEntity.setName(genreName);
+            expectedGenres.add(genreEntity);
+        }
     }
 
     @Test
@@ -126,13 +143,20 @@ public class MovieServiceTests {
                 .build();
         Movie movieThird = new Movie.MovieBuilder(2L, "Pantera")
                 .build();
-        MovieEntity movieEntityFirst = MovieMapper.MOVIE_MAPPER.toEntity(movieFirst);
-        MovieEntity movieEntitySecond = MovieMapper.MOVIE_MAPPER.toEntity(movieSecond);
-        MovieEntity movieEntityThird = MovieMapper.MOVIE_MAPPER.toEntity(movieThird);
+        MovieEntity movieEntityFirst = MovieMapper.MOVIE_MAPPER.toEntity(movieFirst,genresRepository);
+        MovieEntity movieEntitySecond = MovieMapper.MOVIE_MAPPER.toEntity(movieSecond, genresRepository);
+        MovieEntity movieEntityThird = MovieMapper.MOVIE_MAPPER.toEntity(movieThird, genresRepository);
         movieEntityFirst.setId(100L);
         movieEntitySecond.setId(211L);
         assertThat(movieEntityFirst).isEqualTo(movieEntitySecond);
         assertThat(movieEntityFirst.hashCode()).isEqualTo(movieEntitySecond.hashCode());
         assertThat(movieEntityFirst).isNotEqualTo(movieEntityThird);
+    }
+
+    @Test
+    public void shouldReturnGenreEntities() throws Exception {
+        when(genresRepository.findGenreEntitiesByNameIsIn(genresList)).thenReturn(genreComedy);
+        List<GenreEntity> testGenres = GenreMapper.GENRE_MAPPER.toName(genresList, genresRepository);
+        assertThat(testGenres).isEqualTo(expectedGenres);
     }
 }

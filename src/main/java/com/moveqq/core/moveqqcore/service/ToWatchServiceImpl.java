@@ -3,7 +3,7 @@ package com.moveqq.core.moveqqcore.service;
 import com.moveqq.core.moveqqcore.entity.MovieEntity;
 import com.moveqq.core.moveqqcore.entity.UserEntity;
 import com.moveqq.core.moveqqcore.mapper.MovieMapper;
-import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
+import com.moveqq.core.moveqqcore.repository.GenresRepository;
 import com.moveqq.core.moveqqcore.repository.MovieRepository;
 import com.moveqq.core.moveqqcore.repository.ToWatchRepository;
 import com.moveqq.core.moveqqcore.repository.UserRepository;
@@ -23,22 +23,25 @@ public class ToWatchServiceImpl implements ToWatchService {
     private MovieService movieService;
     private MovieRepository movieRepository;
     private ToWatchRepository toWatchRepository;
+    private GenresRepository genresRepository;
 
-    public ToWatchServiceImpl(MovieService movieService, UserService userService, UserRepository userRepository, ToWatchRepository toWatchRepository, MovieRepository movieRepository) {
+    public ToWatchServiceImpl(MovieService movieService, UserService userService, UserRepository userRepository, ToWatchRepository toWatchRepository, MovieRepository movieRepository, GenresRepository genresRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.movieService = movieService;
         this.toWatchRepository = toWatchRepository;
         this.movieRepository = movieRepository;
+        this.genresRepository = genresRepository;
     }
 
     @Override
     public boolean addMovieToUserList(long userId, long movieId) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
         UserEntity userEntity = userEntityOptional.orElseThrow(NoSuchElementException::new);
-        Movie movie = movieService.getMovieById(movieId);
-        if (movie != null)
-            userEntity.getMovies().add(MovieMapper.MOVIE_MAPPER.toEntity(movie));
+        MovieEntity movieEntity = movieRepository.findMovieEntitiesByTmdbId(movieId)
+                .orElse(MovieMapper.MOVIE_MAPPER.toEntity(movieService.getMovieById(movieId), genresRepository));
+        if (movieEntity != null)
+            userEntity.getMovies().add(movieEntity);
         userRepository.save(userEntity);
         return true;
     }
@@ -79,7 +82,7 @@ public class ToWatchServiceImpl implements ToWatchService {
         Set<MovieEntity> movieEntitiesSet = userEntity.getMovies();
         MovieEntity movieEntityToDelete = null;
         if (movieEntitiesSet != null && !movieEntitiesSet.isEmpty()) {
-            for (MovieEntity m: userEntity.getMovies()) {
+            for (MovieEntity m : userEntity.getMovies()) {
                 if (m.getTmdbId().equals(movieId))
                     movieEntityToDelete = m;
             }

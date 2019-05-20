@@ -4,8 +4,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "genres")
-public class GenreEntity extends BaseEntity{
+@Table(name = "genres",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
+public class GenreEntity extends BaseEntity {
 
     private String name;
 

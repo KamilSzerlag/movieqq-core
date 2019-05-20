@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "movies")
+@Table(name = "movies",
+uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"tmdbId", "title"})})
 public class MovieEntity extends BaseEntity {
 
     private Long tmdbId;

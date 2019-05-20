@@ -9,6 +9,7 @@ import com.moveqq.core.moveqqcore.mapper.QuestionMapper;
 import com.moveqq.core.moveqqcore.model.dto.internal.Answer;
 import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
 import com.moveqq.core.moveqqcore.model.dto.internal.Question;
+import com.moveqq.core.moveqqcore.repository.GenresRepository;
 import com.moveqq.core.moveqqcore.repository.MovieRepository;
 import com.moveqq.core.moveqqcore.repository.QuestionRepository;
 import org.junit.Before;
@@ -30,6 +31,9 @@ public class QuizServiceTest {
 
     @Mock
     private QuestionRepository questionRepository;
+
+    @Mock
+    GenresRepository genresRepository;
 
     private Question questionSource;
     private List<Answer> answers;
@@ -82,7 +86,7 @@ public class QuizServiceTest {
                 .withOverview("Dramatic movie about developer using new library")
                 .withGenres(genres)
                 .build();
-        MovieEntity movieEntityTest = MovieMapper.MOVIE_MAPPER.toEntity(movieTest);
+        MovieEntity movieEntityTest = MovieMapper.MOVIE_MAPPER.toEntity(movieTest, genresRepository);
         assertThat(movieEntityTest.getTitle()).isEqualTo("TestMovie");
         assertThat(movieEntityTest.getGenres().get(1).getName()).isEqualTo(genres.get(1));
 

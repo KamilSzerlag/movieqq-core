@@ -3,6 +3,7 @@ package com.moveqq.core.moveqqcore.mapper;
 import com.moveqq.core.moveqqcore.entity.MovieEntity;
 import com.moveqq.core.moveqqcore.fault.TmdbClientException;
 import com.moveqq.core.moveqqcore.model.dto.internal.Movie;
+import com.moveqq.core.moveqqcore.repository.GenresRepository;
 import com.moveqq.core.moveqqcore.repository.MovieRepository;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
@@ -18,7 +19,7 @@ public interface MovieMapper {
     MovieMapper MOVIE_MAPPER = Mappers.getMapper(MovieMapper.class);
 
     @Mapping(target = "tmdbId", source = "id")
-    MovieEntity toEntity(Movie s);
+    MovieEntity toEntity(Movie s, @Context GenresRepository genresRepository);
 
     default Movie fromEntity(MovieEntity movieEntity) throws TmdbClientException {
         return new Movie.MovieBuilder(movieEntity.getTmdbId(), movieEntity.getTitle())
