@@ -2,32 +2,32 @@ package com.moveqq.core.moveqqcore.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "questions")
 public class QuestionEntity extends BaseEntity{
     @NotNull
-    private String questionContent;
+    private String content;
 
     @NotNull
     @ManyToOne
     private MovieEntity movie;
 
     @NotNull
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
-    private List<AnswerEntity> answers;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question", orphanRemoval = true)
+    private Set<AnswerEntity> answers;
 
     private Integer points = 0;
 
     private Integer time = 90;
 
-    public String getQuestionContent() {
-        return questionContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setQuestionContent(String questionContent) {
-        this.questionContent = questionContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public MovieEntity getMovie() {
@@ -38,11 +38,11 @@ public class QuestionEntity extends BaseEntity{
         this.movie = movie;
     }
 
-    public List<AnswerEntity> getAnswers() {
+    public Set<AnswerEntity> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(List<AnswerEntity> answers) {
+    public void setAnswers(Set<AnswerEntity> answers) {
         this.answers = answers;
     }
 

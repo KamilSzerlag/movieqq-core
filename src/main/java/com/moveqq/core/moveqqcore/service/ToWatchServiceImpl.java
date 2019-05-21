@@ -87,7 +87,6 @@ public class ToWatchServiceImpl implements ToWatchService {
                     movieEntityToDelete = m;
             }
             userEntity.getMovies().remove(movieEntityToDelete);
-            movieRepository.delete(movieEntityToDelete);
         }
     }
 }

@@ -37,7 +37,7 @@ public class MovieServiceImpl implements MovieService {
                 movies.add(movie);
             }
         } catch (TmdbClientException e) {
-            //TODO zastanowic sie nad prawidlowa obsluga
+            //TODO obsluga wyjatku
         }
         return movies;
     }

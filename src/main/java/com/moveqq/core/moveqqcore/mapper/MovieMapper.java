@@ -35,11 +35,15 @@ public interface MovieMapper {
 
     default MovieEntity fromLong(Long id, @Context MovieRepository repo) {
         if (id != null)
-            return repo.getOne(id);
+            return repo.getByTmdbId(id);
         else
             return null;
     }
 
     List<Movie> fromEntities(Set<MovieEntity> entities);
+
+    default Long toMovieId(MovieEntity movieEntity) {
+        return movieEntity.getTmdbId();
+    }
 
 }
