@@ -41,6 +41,8 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public boolean createQuestion(Question question) {
+        if (questionRepository.existsByContentContainingIgnoreCase(question.getContent()))
+            return false;
         MovieEntity movieEntity = movieRepository.findMovieEntityByTmdbId(question.getMovieId());
         if (movieEntity == null) {
             movieEntity = MovieMapper.MOVIE_MAPPER.toEntity(movieService.getMovieById(question.getMovieId()), genresRepository);

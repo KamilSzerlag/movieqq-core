@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
+
     MovieEntity findMovieEntityByUsersAndTmdbId(UserEntity userEntity, long movieId);
+
     List<MovieEntity> findMovieEntitiesByUsers(UserEntity userEntity);
+
     Optional<MovieEntity> findMovieEntitiesByTmdbId(long movieId);
+
     MovieEntity findMovieEntityByTmdbId(long tmdbId);
 }

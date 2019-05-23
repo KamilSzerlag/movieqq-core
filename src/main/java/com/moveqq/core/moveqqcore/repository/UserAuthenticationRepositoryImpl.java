@@ -34,7 +34,7 @@ public class UserAuthenticationRepositoryImpl implements UserAuthenticationRepos
     /**
      * Method created only
      * for testing BCryption
-     * in the futer will be
+     * in the future will be
      * replaced by JWT authorization
      *
      *

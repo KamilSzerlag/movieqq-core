@@ -9,5 +9,8 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface QuestionRepository extends CrudRepository<QuestionEntity, Long>, JpaRepository<QuestionEntity, Long> {
+
     List<QuestionEntity> findAllByMovie(MovieEntity movie);
+
+    boolean existsByContentContainingIgnoreCase(String content);
 }
