@@ -4,6 +4,7 @@ import com.moveqq.core.moveqqcore.entity.AnswerEntity;
 import com.moveqq.core.moveqqcore.entity.MovieEntity;
 import com.moveqq.core.moveqqcore.entity.QuestionEntity;
 import com.moveqq.core.moveqqcore.mapper.AnswerMapper;
+import com.moveqq.core.moveqqcore.mapper.CyclingAvoidingAnswerQuestion;
 import com.moveqq.core.moveqqcore.mapper.MovieMapper;
 import com.moveqq.core.moveqqcore.mapper.QuestionMapper;
 import com.moveqq.core.moveqqcore.model.dto.internal.Answer;
@@ -43,19 +44,19 @@ public class QuizServiceTest {
     public void setUp() throws Exception {
         this.questionSource = new Question();
         this.questionSource.setMovieId(60573L);
-        this.questionSource.setQuestionContent("Developerow jakich technologii wymienil " +
+        this.questionSource.setContent("Developerow jakich technologii wymienil " +
                                           "Dinesh podczas rozmowy z Richardem?");
         Answer answerA = new Answer();
         Answer answerB = new Answer();
         Answer answerC = new Answer();
         Answer answerD = new Answer();
-        answerA.setAnswerContent("Java, iOS, Android");
+        answerA.setContent("Java, iOS, Android");
         answerA.setCorrect(false);
-        answerB.setAnswerContent("JavaScript, iOS, Android");
+        answerB.setContent("JavaScript, iOS, Android");
         answerB.setCorrect(true);
-        answerC.setAnswerContent("JavaScript, Ruby, Python");
+        answerC.setContent("JavaScript, Ruby, Python");
         answerC.setCorrect(false);
-        answerD.setAnswerContent("C++, C#, Android, Lisp");
+        answerD.setContent("C++, C#, Android, Lisp");
         answerD.setCorrect(false);
         questionSource.setAnswers(Arrays.asList(answerA, answerB, answerC, answerD));
         movieEntity = new MovieEntity();
@@ -73,9 +74,9 @@ public class QuizServiceTest {
     @Test
     public void should_Mapping_Answer_To_AnswerEntity_Using_Map_Struct() {
         Answer answerA = new Answer();
-        answerA.setAnswerContent("Java, iOS, Android");
-        AnswerEntity answerEntity = AnswerMapper.ANSWER_MAPPER.toEntity(answerA);
-        assertThat(answerEntity.getAnswerContent()).isEqualTo(answerA.getAnswerContent());
+        answerA.setContent("Java, iOS, Android");
+        AnswerEntity answerEntity = AnswerMapper.ANSWER_MAPPER.toEntity(answerA, questionRepository, new CyclingAvoidingAnswerQuestion());
+        assertThat(answerEntity.getContent()).isEqualTo(answerA.getContent());
     }
 
     @Test

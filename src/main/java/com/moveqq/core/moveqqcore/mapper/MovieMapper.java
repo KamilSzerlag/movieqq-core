@@ -35,7 +35,7 @@ public interface MovieMapper {
 
     default MovieEntity fromLong(Long id, @Context MovieRepository repo) {
         if (id != null)
-            return repo.getByTmdbId(id);
+            return repo.findMovieEntityByTmdbId(id);
         else
             return null;
     }
@@ -43,7 +43,9 @@ public interface MovieMapper {
     List<Movie> fromEntities(Set<MovieEntity> entities);
 
     default Long toMovieId(MovieEntity movieEntity) {
-        return movieEntity.getTmdbId();
+        if (movieEntity != null)
+            return movieEntity.getTmdbId();
+        return null;
     }
 
 }

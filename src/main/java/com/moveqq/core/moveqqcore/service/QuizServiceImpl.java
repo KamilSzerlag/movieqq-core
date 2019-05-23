@@ -4,9 +4,12 @@ import com.moveqq.core.moveqqcore.entity.AnswerEntity;
 import com.moveqq.core.moveqqcore.entity.MovieEntity;
 import com.moveqq.core.moveqqcore.entity.QuestionEntity;
 import com.moveqq.core.moveqqcore.mapper.AnswerMapper;
+import com.moveqq.core.moveqqcore.mapper.CyclingAvoidingAnswerQuestion;
+import com.moveqq.core.moveqqcore.mapper.MovieMapper;
 import com.moveqq.core.moveqqcore.mapper.QuestionMapper;
 import com.moveqq.core.moveqqcore.model.dto.internal.Answer;
 import com.moveqq.core.moveqqcore.model.dto.internal.Question;
+import com.moveqq.core.moveqqcore.repository.GenresRepository;
 import com.moveqq.core.moveqqcore.repository.MovieRepository;
 import com.moveqq.core.moveqqcore.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
@@ -18,25 +21,31 @@ import java.util.stream.Collectors;
 public class QuizServiceImpl implements QuizService {
 
     private QuestionRepository questionRepository;
-
     private MovieRepository movieRepository;
+    private MovieService movieService;
+    private GenresRepository genresRepository;
 
-    public QuizServiceImpl(QuestionRepository questionRepository, MovieRepository movieRepository) {
+    public QuizServiceImpl(QuestionRepository questionRepository, MovieRepository movieRepository, MovieService movieService, GenresRepository genresRepository) {
         this.questionRepository = questionRepository;
         this.movieRepository = movieRepository;
+        this.movieService = movieService;
+        this.genresRepository = genresRepository;
     }
 
     @Override
     public List<Question> getAllQuestionsForMovie(long movieId) {
-        Optional<MovieEntity> movieEntityOptional = movieRepository.findById(movieId);
-        MovieEntity movieEntity = movieEntityOptional.orElseThrow(NoSuchElementException::new);
+        MovieEntity movieEntity = movieRepository.findMovieEntityByTmdbId(movieId);
         List<QuestionEntity> questionEntities = questionRepository.findAllByMovie(movieEntity);
-        List<Question> questions = QuestionMapper.QUESTION_MAPPER.fromEntitiesList(questionEntities);
-        return questions;
+        return QuestionMapper.QUESTION_MAPPER.fromEntitiesList(questionEntities);
     }
 
     @Override
     public boolean createQuestion(Question question) {
+        MovieEntity movieEntity = movieRepository.findMovieEntityByTmdbId(question.getMovieId());
+        if (movieEntity == null) {
+            movieEntity = MovieMapper.MOVIE_MAPPER.toEntity(movieService.getMovieById(question.getMovieId()), genresRepository);
+            movieRepository.save(movieEntity);
+        }
         QuestionEntity questionEntity = QuestionMapper.QUESTION_MAPPER.toEntity(question, movieRepository);
         questionRepository.save(questionEntity);
         return true;
@@ -56,9 +65,9 @@ public class QuizServiceImpl implements QuizService {
         QuestionEntity questionEntity = questionEntityOptional.orElseThrow(NoSuchElementException::new);
         for (Answer answer : answers) {
             boolean isNewAnswer = questionEntity.getAnswers().stream()
-                    .noneMatch(ans -> ans.getAnswerContent().toLowerCase().contains(answer.getAnswerContent().toLowerCase()));
+                    .noneMatch(ans -> ans.getContent().toLowerCase().contains(answer.getContent().toLowerCase()));
             if (isNewAnswer) {
-                AnswerEntity answerEntity = AnswerMapper.ANSWER_MAPPER.toEntity(answer);
+                AnswerEntity answerEntity = AnswerMapper.ANSWER_MAPPER.toEntity(answer, questionRepository, new CyclingAvoidingAnswerQuestion());
                 questionEntity.getAnswers().add(answerEntity);
             }
         }

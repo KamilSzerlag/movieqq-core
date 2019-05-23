@@ -1,21 +1,19 @@
 package com.moveqq.core.moveqqcore.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.google.common.base.Objects;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "answers")
 public class AnswerEntity extends BaseEntity {
 
-    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     private QuestionEntity question;
 
     @NotNull
-    private String answerContent;
+    private String content;
 
     private Boolean isCorrect = false;
 
@@ -27,12 +25,12 @@ public class AnswerEntity extends BaseEntity {
         this.question = question;
     }
 
-    public String getAnswerContent() {
-        return answerContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setAnswerContent(String answerContent) {
-        this.answerContent = answerContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Boolean getCorrect() {
@@ -41,5 +39,19 @@ public class AnswerEntity extends BaseEntity {
 
     public void setCorrect(Boolean correct) {
         isCorrect = correct;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        AnswerEntity that = (AnswerEntity) o;
+        return Objects.equal(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(super.hashCode(), content);
     }
 }

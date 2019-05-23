@@ -4,9 +4,18 @@ import java.util.List;
 
 public class Question {
 
+    private Long questionId;
     private Long movieId;
-    private String questionContent;
+    private String content;
     private List<Answer> answers;
+
+    public Long getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
+    }
 
     public Long getMovieId() {
         return movieId;
@@ -16,12 +25,12 @@ public class Question {
         this.movieId = movieId;
     }
 
-    public String getQuestionContent() {
-        return questionContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setQuestionContent(String questionContent) {
-        this.questionContent = questionContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public List<Answer> getAnswers() {

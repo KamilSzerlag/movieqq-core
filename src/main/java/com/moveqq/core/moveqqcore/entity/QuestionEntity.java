@@ -15,12 +15,13 @@ public class QuestionEntity extends BaseEntity{
     private MovieEntity movie;
 
     @NotNull
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question", orphanRemoval = true)
+    @JoinColumn(name = "QUESTION_ID")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<AnswerEntity> answers;
 
-    private Integer points = 0;
+    private Integer points = 1;
 
-    private Integer time = 90;
+    private Integer time = 30;
 
     public String getContent() {
         return content;

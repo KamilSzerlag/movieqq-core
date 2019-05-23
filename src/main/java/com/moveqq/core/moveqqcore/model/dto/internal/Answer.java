@@ -1,20 +1,37 @@
 package com.moveqq.core.moveqqcore.model.dto.internal;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Answer {
 
-    private String answerContent;
+    private Long answerId;
+    private Long questionId;
+    private String content;
     private Boolean isCorrect;
 
-    public String getAnswerContent() {
-        return answerContent;
+    public Long getAnswerId() {
+        return answerId;
     }
 
-    public void setAnswerContent(String answerContent) {
-        this.answerContent = answerContent;
+    public void setAnswerId(Long answerId) {
+        this.answerId = answerId;
+    }
+
+    public Long getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Boolean getCorrect() {
